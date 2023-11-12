@@ -1,0 +1,40 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  font-weight: normal;
+}
+#app {
+  height: fit-content;
+  xwidth: 90%;
+  min-width: 350px;
+  max-width: 890px;
+  margin: 0px auto;
+  background: #ccc;
+  font-family:  monospace;
+  font-size: 16px;
+  font-weight: bolder;
+  xbox-shadow: 0 0 0px 2px #000;
+  border: 2px solid #000;
+}
+#app>* {
+  display: grid;
+  grid-template-columns: 100%;
+  gap: 16px;
+  padding: 16px;
+  border-bottom: 2px solid #000;
+  margin-bottom: -2px;
+}
+h1 {
+  border-bottom: 2px solid #000;
+  font-size: 100%;
+  xborder-bottom: 2px solid #000;
+  xborder-top: 2px solid #000;
+  text-align: center;
+  background: #57a;
+  color: #fff;
+}
+
+
+
