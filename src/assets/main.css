@@ -1,9 +1,17 @@
+body {
+  background-color: #579;
+}
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   user-select: none;
   font-weight: normal;
+  xfont-family:  'Courier New', monospace;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+
+  font-size: 16px;
+  font-weight: bolder;
 }
 #app {
   height: fit-content;
@@ -11,29 +19,37 @@
   min-width: 350px;
   max-width: 890px;
   margin: 0px auto;
-  background: #ccc;
-  font-family:  monospace;
-  font-size: 16px;
-  font-weight: bolder;
+  
+  
+  
   xbox-shadow: 0 0 0px 2px #000;
-  border: 2px solid #000;
+  xborder: 2px solid #000;
 }
 #app>* {
   display: grid;
   grid-template-columns: 100%;
-  gap: 16px;
-  padding: 16px;
-  border-bottom: 2px solid #000;
-  margin-bottom: -2px;
+  gap: 8px;
+  padding: 8px;
+  xborder-bottom: 2px solid #000;
+  xmargin-bottom: -2px;
+  
 }
 h1 {
-  border-bottom: 2px solid #000;
-  font-size: 100%;
-  xborder-bottom: 2px solid #000;
-  xborder-top: 2px solid #000;
-  text-align: center;
-  background: #57a;
+  xtext-align: center;
   color: #fff;
+  padding: 0 !important;
+  font-size: 70% !important;
+  font-weight: normal;
+  text-transform: uppercase;
+  xbackground: rgba(255,255,255,0.1);
+  xbackground: #eee;
+  margin: 8px;
+  margin-bottom: 0;
+  xheight: 20px;
+  line-height: 20px;
+  color: #fff;
+  xborder: 1px solid #000;
+  
 }
 
 

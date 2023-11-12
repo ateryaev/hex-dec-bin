@@ -28,13 +28,15 @@ function handleInput(action) {
 </script>
 
 <template>
-      <h1>Base Number Converter</h1>
+      <h1>hex-dec-bin converter</h1>
       <div>
         <DigitDisplay v-for="(base, index) in bases" ref="display" 
           v-model="number" 
           :base="base"
           @focus="selectedIndex=index"
           @blur="selectedIndex=-1"/>
+        </div>
+        <div>
           <DigitKeyboard :base="selectedIndex>-1?bases[selectedIndex]:-1" @input="handleInput"/>
       </div>
       

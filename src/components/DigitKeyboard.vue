@@ -13,12 +13,20 @@ const icons = {
   "paste":"content_paste",
 }
 
-const buttons =[
+const buttons2 =[
   "end", "left", "right", "home", "backspace", "clear all",
   "a", "b", "c", "d", "e", "f", 
   "0", "1", "2", "3", "4", "5", "6",   "7",    "8",     "9",
   "copy", "paste"
   
+];
+
+const buttons =[
+  "copy", "paste", "clear all", "backspace",
+  "0", "1", "2", "3", 
+  "4", "5", "6", "7", 
+  "8", "9", "A", "B", 
+  "C", "D", "E", "F"
 ];
 
 function isDisabled() {
@@ -38,6 +46,8 @@ function handleMousedown(e, action) {
 <template>
 
 <div class="main" :class="{disabled:isDisabled()}">
+  <div class="title"><span>number&nbsp;keyboard</span></div>
+  <div class="title minidisplay"><span>4 985 100 101</span></div>
   <button v-for="action in buttons" :class="{'material-symbols-outlined':!isDigit(action)}"
     @mousedown="(e)=>handleMousedown(e, action)">
       {{ isDigit(action)?action:icons[action] }}
@@ -49,45 +59,75 @@ function handleMousedown(e, action) {
 <style scoped>
 
 div.main {
-    box-shadow: 0 0 0 2px #eef;
-    border:2px solid #000;
-    background: #fff;
     display: grid;
-    grid-template-columns: 16.7% 16.7% 16.7% 16.7% 16.7% auto;
-    grid-template-rows: repeat(4, 60px);
-    gap:0px;
-    padding: 0px;
+    xgrid-template-columns: 16.7% 16.7% 16.7% 16.7% 16.7% auto;
+    xgrid-template-rows: repeat(4, 60px);
+    grid-template-columns: 25% 25% 25% auto;
+    grid-template-rows: 20px 40px 20px repeat(4, 40px);
+    gap:1px;
+    xpadding: 0px;
+    xmargin: -8px;
+    background: #000;
+    padding: 1px;
+}
+
+div.main>div.title {
+    background: #eee;
+    color: #135;
+    xborder: 1px solid #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-column-end: span 4;
+    text-transform: uppercase;
+    padding: 0 4px;
+}
+div.main>div.title.minidisplay {
+  grid-column-start: 1;
+    grid-column-end: span 4;
+    grid-row-start: 3;
+  text-align: right;
+  padding: 0 4px;
+  justify-content: end;
+    text-transform: uppercase;
+}
+div.main>div.title>span {
+    xtransform: rotate(-90deg);
+    font-size: 70%;
+    xcolor: #000;
 }
 div.disabled {
-  background: #eee;
+  xbackground: #eee;
   box-shadow: none;
 }
 div.disabled button {
-  background: #eee;
-  box-shadow: none;
-  color: #888;
+  xbackground: #eee;
+  xbox-shadow: none;
+  color: rgba(0,0,0,0.2);
 }
 
 button {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 125%;
-  background: #ddf;
-  border: 2px solid #000;
-  margin: -2px;
+  background: #579;
+  border: 0px solid #000;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 100%;
+  
 }
 button.material-symbols-outlined {
   font-size: 160%;
-  background: #fff;
+  xbackground: #fff;
   
 }
 button:active {
-  background: #57a;
-  color: #fff;
+  background: #fff;
+  color: #579;
 }
-button.material-symbols-outlined:active {
-  background: #57a;
+button.material-symbols-outlined {
+  background: #579;
   color: #fff;
 }
 

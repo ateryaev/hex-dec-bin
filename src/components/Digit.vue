@@ -31,56 +31,64 @@ div.digit {
 div.digit>div.value {
     font-size: 125%;
     color:#000;
-    background-color: #fff;
+    border-left:1px solid transparent;
+    border-right:1px solid transparent;
 }
 
 div.digit.group>div.value {
-    border-right-color:#ccc;
-}
-div.digit.group.readonly>div.value {
-    border-right: 2px solid #ddd;
+    border-right-color:#000;
+    xborder-left-color:#000;
+    
 }
 
 div.digit>div {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-right: 2px solid transparent;
+    xborder-right: 1px solid transparent;
+    xborder-left: 1px solid transparent;
 }
 div.digit.blank>div.value {
-    color:#aaa;
+    color:rgba(0,0,0,0.2);
 }
-div.digit.readonly>div.value {
-    background-color: #eee;
-}
-div.digit.readonly.blank>div.value {
-    color:#ddd;
-}
-div.digit.readonly.odd>div.value {
-    background-color: #eee;
-}
-div.digit.odd>div.value {
-    background-color: #fcfcfc;
-}
-
-div.digit.cursor>div.value {
-    background:#ddf;
-    animation: blink 0.5s infinite;
-}
-div.digit.cursor>div.index {
+div.digit.readonly:not(.blank)>div.value {
     color:#fff;
-    background: #999;
-}
-.index {
-    background: #444;
-    font-size: 50%;
-    background: #bbb;
-    color:#444;
 }
 
 div.readonly .index {
-    background: #ddd;
-    color:#aaa;
+    color:rgba(255,255,255,0.4);
+}
+
+div.digit.odd>div.value {
+    background: rgba(255,255,255,0.05);
+}
+div.digit>div.value {
+    background: rgba(0,0,0,0.05);
+}
+
+div.digit.cursor>div.value {
+    xbackground:#cde;
+    background:rgba(100,140,180,0.5);
+    animation: blink 0.5s infinite;
+    border-left:2px solid transparent;
+    border-right:2px solid transparent;
+    xbox-shadow: 0 0 4px #000;
+}
+div.digit.cursor>div.index {
+    background: #000;
+    color: #fff;
+    margin-bottom: -1px;
+    margin-left: -1px;
+    
+}
+.index {
+    border:0;
+    border-top: 1px solid #000;
+    background: rgba(0,0,0,0.2);
+    font-size: 70%;
+    color:rgba(0,0,0,0.5);
+    xborder-right: 1px solid transparent;
+    xborder-left: 1px solid transparent;
 }
 
 @keyframes blink {

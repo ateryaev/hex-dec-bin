@@ -2,10 +2,12 @@
 import { reactive, ref, computed, onMounted, onUnmounted } from 'vue'
 import Digit from './Digit.vue'
 
+const maxSize = 32;
 const props = defineProps({
     modelValue: {type: Number, required: false, default: 2},
     base: {type: Number, required: false, default: 10},
 })
+const digit = ref([]);
 
 const cursorPosition = ref(0);
 const startIndex = ref(0);
@@ -128,15 +130,19 @@ function isMeanfullAt(index) {
     return true;
 }
 
-function handleMouseDown(n) {
-    setCursorPosition(n2i(n));
+function handleMouseDown(idx) {
+    setCursorPosition(idx);
 }
 function setStartIndex(index) {
     if (index < 0) startIndex.value = 0;
     else if (index > 31 -  digitCount.value + 1) startIndex.value = 31-  digitCount.value + 1;
     else startIndex.value = index;
 }
-function setCursorPosition(index) {
+function setCursorPosition(idx) {
+    cursorPosition.value = idx;
+    //console.log(displayDiv.value.children[idx]);
+    displayDiv.value.children[idx].scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+    /*
     if (index > 31 || index < 0) return;
     console.log("TEST", index, startIndex.value, startIndex.value + digitCount.value)
     if (readonly.value == true) return;
@@ -147,14 +153,16 @@ function setCursorPosition(index) {
     }
     if (index > startIndex.value + digitCount.value - 2) {
         setStartIndex(index - digitCount.value + 2);
-    }
+    }*/
 }
 function n2i(n) {
-    return n - 1 + startIndex.value;
+    return n - 1;// + startIndex.value;
 } 
+
 function handleResize() {
-    digitCount.value = Math.floor(displayDiv.value.offsetWidth/40) + 1;
+//    digitCount.value = Math.floor(displayDiv.value.offsetWidth/40) + 1;
 }
+/*
 onMounted(() => {
     handleResize();
     window.addEventListener("resize", handleResize);
@@ -162,6 +170,7 @@ onMounted(() => {
 onUnmounted(() => {
     window.removeEventListener("resize", handleResize);
 })
+*/
 
 function handleFocus(e) {readonly.value = false;}
 function handleBlur(e) {readonly.value = true;}
@@ -174,16 +183,17 @@ function handleBlur(e) {readonly.value = true;}
         @focus="handleFocus"
         @blur="handleBlur"
         @keydown="(e)=>keyboard(e)">
-        <div class="title">{{ baseConig[base].name }}</div>
+        <div class="title"><span>{{ baseConig[base].name }}</span></div>
         <div class="display" :class="{readonly}" ref="displayDiv">
-            <Digit v-for="n in digitCount" 
+            <Digit v-for="n in maxSize" 
+            ref="digit"
             :value="digitAt(n2i(n))" 
             :index="n2i(n)"
             :cursor="!readonly && n2i(n)===cursorPosition"
             :group="((n2i(n)+1) % baseConig[base].group == 1 && n!=1)"
             :odd="(Math.floor((n2i(n))/baseConig[base].group) % 2 == 0)"
             :readonly="readonly"
-            @mousedown="handleMouseDown(n)"
+            @mousedown="handleMouseDown(n2i(n))"
             ></Digit>
         </div>
     </div>
@@ -191,43 +201,52 @@ function handleBlur(e) {readonly.value = true;}
 
 <style scoped>
 
-div.main:focus {
-    box-shadow: 0 0 0 2px #eef;
-}
 div.main {
     display: grid;
-    grid-template-columns: 50px auto;
+    grid-template-columns: 20px auto;
     outline: 0;
+    border:1px solid #000;
+}
+div.main.readonly>div.title {
+    background: rgba(255,255,255,0.1);
+    color: #135;
 }
 div.main>div.title {
-    background: #57a;
-    color: #fff;
+    
+    background: #eee;
+    color: #135;
+    border-right: 1px solid #000;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 70%;
-    border: 2px solid #000;
-    border-right: 0;
     
 }
-div.main.readonly>div.title {
-    background: #ddd;
-    color: #000;
+div.main>div.title>span {
+    transform: rotate(-90deg);
+    font-size: 70%;
+    xcolor: #000;
 }
 div.main>div.display {
-    border:1px solid red;
+    
     padding: 0px;
-    border:2px solid #000;
+    
+}
+div.display.readonly {
+    background: transparent;
 }
 div.display {
     background: #fff;
     color: #fff;
     padding: 10px;
-    border:2px solid red;
     overflow: hidden;
     display: flex;
     flex-direction: row-reverse;
-    overflow: hidden;
+	overflow-x: scroll;
+    scrollbar-width: none;
+    box-shadow: inset 0 0 4px rgba(0,0,0,0.5);
+}
+div.display::-webkit-scrollbar {
+    display: none;
 }
 
 </style>
