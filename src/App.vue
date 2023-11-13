@@ -20,25 +20,47 @@ function handleBtn(e) {
   e.preventDefault();
   //e.target.blur();
 }
-function handleInput(action) {
+async function handleInput(action) {
   console.log("KEYBOARD: ", action, selectedIndex) 
   if (selectedIndex.value<0) return;
-  display.value[selectedIndex.value].input(action);
+  const selectedDisplay = display.value[selectedIndex.value];
+
+  if (action.toLowerCase() == "copy") {
+    navigator.clipboard.writeText(selectedDisplay.displayValue());
+    console.log("COPY: ", selectedDisplay.displayValue())
+  }
+  if (action.toLowerCase() == "paste") {
+    selectedDisplay.input("clear");
+    let clip = "1110";//await navigator.clipboard.readText();
+    console.log("PASTE2: ", clip)
+
+    for (let i=0; i<clip.length; i++) {
+      selectedDisplay.input("1");
+    }
+    
+  }
+  
+  
+
+  
+  selectedDisplay.input(action);
 }
+
 </script>
 
 <template>
-      <h1>hex-dec-bin converter</h1>
-      <div>
-        <DigitDisplay v-for="(base, index) in bases" ref="display" 
-          v-model="number" 
-          :base="base"
-          @focus="selectedIndex=index"
-          @blur="selectedIndex=-1"/>
-        </div>
-        <div>
-          <DigitKeyboard :base="selectedIndex>-1?bases[selectedIndex]:-1" @input="handleInput"/>
-      </div>
+      <div class="title">hex-dec-bin converter</div>
+      <DigitDisplay v-for="(base, index) in bases" ref="display" 
+        v-model="number" 
+        :base="base"
+        @focus="selectedIndex=index"
+        @blur="selectedIndex=-1"/>
+      <DigitKeyboard :base="selectedIndex>-1?bases[selectedIndex]:-1" @input="handleInput"/>
+        <div class="title">history archive</div>
+        <div class="title">TBD...</div>
+        <div class="title">credits</div>
+        <div class="title">TBD...</div>
+      
       
 </template>
 

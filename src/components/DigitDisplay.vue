@@ -26,10 +26,12 @@ const baseConig = {
 const emit = defineEmits(['update:modelValue'])
 
 defineExpose({
-    input
+    input,
+    displayValue
   });
 
-function input(key) {
+function input(key, params) {
+    console.log(key)
     if (key.length == 1) {
         if (baseConig[props.base].digits.indexOf(key.toUpperCase())>=0) {
             let str = "000000000000000" + displayValue();
@@ -37,10 +39,11 @@ function input(key) {
             let afterCursor = str.slice(str.length - cursorPosition.value);
             const newStr = beforeCursor+key+afterCursor;
             const newVal = parseInt(newStr, props.base);
+            setCursorPosition(cursorPosition.value);
             emit('update:modelValue', newVal);
         }
     } else {
-        switch (key) {
+        switch (key.toLowerCase()) {
             case "left":
                 setCursorPosition(cursorPosition.value+1);
                 break;
@@ -55,6 +58,10 @@ function input(key) {
                 const newVal = parseInt("0" + newStr, props.base);
                 emit('update:modelValue', newVal);
                 break;
+            case "clear":
+                setCursorPosition(0);
+                emit('update:modelValue', 0);
+                break;
             case "home":
                 setCursorPosition(0);
                 break;
@@ -67,45 +74,25 @@ function input(key) {
 
 function keyboard(e) {
     const key = e.key;
-    //console.log("KEY METHOD", key, key == "ArrowLeft", props.modelValue);
-    //handleNumberChange(50);
     if (e.metaKey || e.ctrlKey) {
         return;
     }
     if ((key == "ArrowLeft" && e.altKey) || key == "End") {
-        setCursorPosition(digits.value.length);
-        e.preventDefault();
+        input("end");
     } else if (key == "ArrowLeft") {
-        setCursorPosition(cursorPosition.value+1);
-        e.preventDefault();
-    }
-    if ((key == "ArrowRight" && e.altKey) || key == "Home") {
-        setCursorPosition(0);
-        e.preventDefault();
+        input("left");
+    } else if ((key == "ArrowRight" && e.altKey) || key == "Home") {
+        input("home");
     } else if (key == "ArrowRight") {
-        setCursorPosition(cursorPosition.value-1);
-        e.preventDefault();
+        input("right");
+    } else if (key == "Backspace") {
+        input("backspace");
+    } else if (baseConig[props.base].digits.indexOf(key.toUpperCase())>=0) {
+        input(key);
+    } else {
+        return;
     }
-
-    if (key == "Backspace") {
-        let str = "00000000000000" + displayValue();
-        let beforeCursor = str.slice(0, str.length - cursorPosition.value - 1);
-        let afterCursor = str.slice(str.length - cursorPosition.value);
-        const newStr = beforeCursor+afterCursor;
-        const newVal = parseInt("0" + newStr, props.base);
-        emit('update:modelValue', newVal);
-        e.preventDefault();
-    }
-
-    if (baseConig[props.base].digits.indexOf(key.toUpperCase())>=0) {
-        let str = "000000000000000" + displayValue();
-        let beforeCursor = str.slice(0, str.length - cursorPosition.value);
-        let afterCursor = str.slice(str.length - cursorPosition.value);
-        const newStr = beforeCursor+key+afterCursor;
-        const newVal = parseInt(newStr, props.base);
-        emit('update:modelValue', newVal);
-        e.preventDefault();
-    }
+    e.preventDefault();
 }
 
 function displayValue() {
@@ -183,7 +170,7 @@ function handleBlur(e) {readonly.value = true;}
         @focus="handleFocus"
         @blur="handleBlur"
         @keydown="(e)=>keyboard(e)">
-        <div class="title"><span>{{ baseConig[base].name }}</span></div>
+        <div class="subtitle"><span>{{ baseConig[base].name }}</span></div>
         <div class="display" :class="{readonly}" ref="displayDiv">
             <Digit v-for="n in maxSize" 
             ref="digit"
@@ -191,7 +178,6 @@ function handleBlur(e) {readonly.value = true;}
             :index="n2i(n)"
             :cursor="!readonly && n2i(n)===cursorPosition"
             :group="((n2i(n)+1) % baseConig[base].group == 1 && n!=1)"
-            :oddx="(Math.floor((n2i(n))/baseConig[base].group) % 2 == 0)"
             :readonly="readonly"
             @mousedown="handleMouseDown(n2i(n))"
             ></Digit>
@@ -205,45 +191,18 @@ div.main {
     display: grid;
     grid-template-columns: 20px auto;
     outline: 0;
-    border:1px solid #000;
 }
-div.main.readonly>div.title {
-    background: rgba(255,255,255,0.4);
-    xcolor: #fff;
-}
-div.main>div.title {
-    
-    background: #eee;
-    color: #000;
-    border-right: 1px solid #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-}
-div.main>div.title>span {
-    transform: rotate(-90deg);
-    font-size: 70%;
-    xcolor: #000;
-}
-div.main>div.display {
-    
-    padding: 0px;
-    
-}
+
 div.display.readonly {
     background: transparent;
 }
 div.display {
-    xbackground: #fff;
-    color: #fff;
-    padding: 10px;
+    background: #fff;
     overflow: hidden;
     display: flex;
     flex-direction: row-reverse;
 	overflow-x: scroll;
     scrollbar-width: none;
-    xbox-shadow: inset 0 0 4px rgba(0,0,0,0.5);
 }
 div.display::-webkit-scrollbar {
     display: none;

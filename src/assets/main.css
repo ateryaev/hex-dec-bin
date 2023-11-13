@@ -1,56 +1,63 @@
 body {
-  background-color: #678;
+  background: #234;
 }
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   user-select: none;
-  font-weight: normal;
-  xfont-family:  'Courier New', monospace;
   font-family: 'M PLUS Rounded 1c', sans-serif;
-
-  font-size: 16px;
+  font-size: 12px;
   font-weight: bolder;
 }
+
 #app {
-  height: fit-content;
-  xwidth: 90%;
-  min-width: 350px;
-  xmax-width: 890px;
-  margin: 0px auto;
-  
-  
-  
-  xbox-shadow: 0 0 0px 2px #000;
-  xborder: 2px solid #000;
-}
-#app>* {
-  display: grid;
-  grid-template-columns: 100%;
-  gap: 8px;
+  background-color: #678;
   padding: 8px;
-  xborder-bottom: 2px solid #000;
-  xmargin-bottom: -2px;
-  
+  height: fit-content;
+  min-height: 100vh;
+  min-width: 350px;
+  max-width: 1024px;
+  margin: 0px auto;
+  box-shadow: 0 0 0px 1px #000;
 }
-h1 {
-  xtext-align: center;
-  color: #fff;
-  padding: 0 !important;
-  font-size: 70% !important;
-  font-weight: normal;
+#app>*{
+  margin: 8px 0;
+  border: 1px solid #000;
+}
+#app>*{
+  font-size: 100%;
+}
+#app .title, #app .subtitle {
+  display: flex;
+  justify-content: start;
+  align-items: center;
   text-transform: uppercase;
-  xbackground: rgba(255,255,255,0.1);
-  xbackground: #eee;
-  margin: 8px;
-  margin-bottom: 0;
-  xheight: 20px;
-  line-height: 20px;
   color: #fff;
-  xborder: 1px solid #000;
-  
+  text-transform: uppercase;
+  border: 1px solid transparent;
 }
 
+#app .subtitle{
+  background: #eee;
+  border: 1px solid #000;
+  color:#222;
+  margin: -1px;
+  z-index: 2;
+  justify-content: center;
+}
 
+#app .readonly .subtitle, #app .disabled .subtitle{
+  background: rgba(0, 0, 0, 0.2);
+  color: rgba(255,255,255, 0.5);
+}
+#app .disabled .subtitle{
+  color: rgba(0, 0, 0, 0.2);
+}
+
+.subtitle>span {
+  transform: rotate(-90deg);
+  font-size: 100%; 
+}
 
