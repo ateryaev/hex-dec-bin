@@ -27,18 +27,17 @@ div.digit {
     display: grid;
     grid-template-columns:40px;
     grid-template-rows:50px 20px;
+    
 }
 div.digit>div.value {
     font-size: 125%;
     color:#000;
-    border-left:1px solid transparent;
-    border-right:1px solid transparent;
+    border-left:2px solid transparent;
+    border-right:2px solid transparent;
 }
 
-div.digit.group>div.value {
-    border-right-color:#000;
-    xborder-left-color:#000;
-    
+div.digit.group {
+    border-right:1px solid #000;
 }
 
 div.digit>div {
@@ -57,36 +56,37 @@ div.digit.readonly:not(.blank)>div.value {
 
 div.readonly .index {
     color:rgba(255,255,255,0.4);
+    background: rgba(0,0,0,0.2);
 }
 
-div.digit.odd>div.value {
-    background: rgba(255,255,255,0.05);
-}
 div.digit>div.value {
+    background: #fff;
+}
+div.digit.readonly>div.value {
     background: rgba(0,0,0,0.05);
 }
 
 div.digit.cursor>div.value {
     xbackground:#cde;
-    background:rgba(100,140,180,0.5);
+    background: rgba(255,255,255,0.8);
+    color: #000;
     animation: blink 0.5s infinite;
     border-left:2px solid transparent;
     border-right:2px solid transparent;
     xbox-shadow: 0 0 4px #000;
 }
 div.digit.cursor>div.index {
-    background: #000;
+    background: black;
     color: #fff;
-    margin-bottom: -1px;
-    margin-left: -1px;
-    
 }
 .index {
+    
     border:0;
     border-top: 1px solid #000;
-    background: rgba(0,0,0,0.2);
+    background: rgba(0,0,0,0.4);
+    background: #eee;
     font-size: 70%;
-    color:rgba(0,0,0,0.5);
+    color:rgba(0,0,0,0.2);;
     xborder-right: 1px solid transparent;
     xborder-left: 1px solid transparent;
 }

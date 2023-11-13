@@ -1,5 +1,5 @@
 body {
-  background-color: #579;
+  background-color: #678;
 }
 * {
   box-sizing: border-box;
@@ -17,7 +17,7 @@ body {
   height: fit-content;
   xwidth: 90%;
   min-width: 350px;
-  max-width: 890px;
+  xmax-width: 890px;
   margin: 0px auto;
   
   

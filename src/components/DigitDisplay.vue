@@ -191,7 +191,7 @@ function handleBlur(e) {readonly.value = true;}
             :index="n2i(n)"
             :cursor="!readonly && n2i(n)===cursorPosition"
             :group="((n2i(n)+1) % baseConig[base].group == 1 && n!=1)"
-            :odd="(Math.floor((n2i(n))/baseConig[base].group) % 2 == 0)"
+            :oddx="(Math.floor((n2i(n))/baseConig[base].group) % 2 == 0)"
             :readonly="readonly"
             @mousedown="handleMouseDown(n2i(n))"
             ></Digit>
@@ -208,13 +208,13 @@ div.main {
     border:1px solid #000;
 }
 div.main.readonly>div.title {
-    background: rgba(255,255,255,0.1);
-    color: #135;
+    background: rgba(255,255,255,0.4);
+    xcolor: #fff;
 }
 div.main>div.title {
     
     background: #eee;
-    color: #135;
+    color: #000;
     border-right: 1px solid #000;
     display: flex;
     justify-content: center;
@@ -235,7 +235,7 @@ div.display.readonly {
     background: transparent;
 }
 div.display {
-    background: #fff;
+    xbackground: #fff;
     color: #fff;
     padding: 10px;
     overflow: hidden;
@@ -243,7 +243,7 @@ div.display {
     flex-direction: row-reverse;
 	overflow-x: scroll;
     scrollbar-width: none;
-    box-shadow: inset 0 0 4px rgba(0,0,0,0.5);
+    xbox-shadow: inset 0 0 4px rgba(0,0,0,0.5);
 }
 div.display::-webkit-scrollbar {
     display: none;

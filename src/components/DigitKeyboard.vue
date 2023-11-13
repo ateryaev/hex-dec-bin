@@ -46,8 +46,8 @@ function handleMousedown(e, action) {
 <template>
 
 <div class="main" :class="{disabled:isDisabled()}">
-  <div class="title"><span>number&nbsp;keyboard</span></div>
-  <div class="title minidisplay"><span>4 985 100 101</span></div>
+  <div class="title">number&nbsp;keyboard</div>
+  <div class="title minidisplay">DEC: 4 985 100 101</div>
   <button v-for="action in buttons" :class="{'material-symbols-outlined':!isDigit(action)}"
     @mousedown="(e)=>handleMousedown(e, action)">
       {{ isDigit(action)?action:icons[action] }}
@@ -63,14 +63,22 @@ div.main {
     xgrid-template-columns: 16.7% 16.7% 16.7% 16.7% 16.7% auto;
     xgrid-template-rows: repeat(4, 60px);
     grid-template-columns: 25% 25% 25% auto;
-    grid-template-rows: 20px 40px 20px repeat(4, 40px);
-    gap:1px;
+    grid-template-rows: 20px 50px 20px repeat(4, 50px);
+    gap:0px;
     xpadding: 0px;
     xmargin: -8px;
-    background: #000;
-    padding: 1px;
+    xbackground: #000;
+    xpadding: 1px;
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
 }
-
+div.main>* {
+  border: 0px solid #000;
+  border-left: 1px solid #000;
+  border-top: 1px solid #000;
+  margin: 0px;
+  display: block;
+}
 div.main>div.title {
     background: #eee;
     color: #135;
@@ -81,7 +89,9 @@ div.main>div.title {
     grid-column-end: span 4;
     text-transform: uppercase;
     padding: 0 4px;
+    font-size: 70%;
 }
+
 div.main>div.title.minidisplay {
   grid-column-start: 1;
     grid-column-end: span 4;
@@ -91,17 +101,12 @@ div.main>div.title.minidisplay {
   justify-content: end;
     text-transform: uppercase;
 }
-div.main>div.title>span {
-    xtransform: rotate(-90deg);
-    font-size: 70%;
-    xcolor: #000;
-}
-div.disabled {
-  xbackground: #eee;
-  box-shadow: none;
+div.main.disabled>div.title {
+  background: rgba(255,255,255,0.4);
 }
 div.disabled button {
-  xbackground: #eee;
+  background: transparent;
+  outline: 0;
   xbox-shadow: none;
   color: rgba(0,0,0,0.2);
 }
@@ -110,25 +115,21 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #579;
-  border: 0px solid #000;
-  color: #fff;
+  background: #fff;
+  border: 1px solid #000;
+  color: #000;
   text-transform: uppercase;
   font-size: 100%;
+  xmargin: -1px;
   
 }
 button.material-symbols-outlined {
   font-size: 160%;
-  xbackground: #fff;
+  background: #eee;
   
 }
 button:active {
   background: #fff;
   color: #579;
 }
-button.material-symbols-outlined {
-  background: #579;
-  color: #fff;
-}
-
 </style>
