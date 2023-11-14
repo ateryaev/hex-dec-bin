@@ -44,6 +44,8 @@ function isDigitDisabled(action) {
   }
   return true;
 }
+
+//e.clipboardData.getData("text")
 </script>
 
 <template>
@@ -97,8 +99,9 @@ button {
   border-left: 1px solid #000;
   border-top: 1px solid #000;
   background: #eee;
-  
+  transition: background 0.2s, color 0.2s;
 }
+
 button.digit {
   font-size: 125%;
   background: #fff;
@@ -107,5 +110,6 @@ button.digit {
 button:active {
   background: rgba(0,0,0,0.2);
   color: #fff;
+  transition: all 0s;
 }
 </style>

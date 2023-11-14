@@ -29,7 +29,7 @@ div.digit {
     
 }
 div.digit>div.value {
-    font-size: 125%;
+    font-size: 250%;
     color:#000;
     border-left:2px solid transparent;
     border-right:2px solid transparent;
@@ -61,8 +61,7 @@ div.digit.readonly>div.value {
 }
 
 div.digit.cursor>div.value {
-    background: #eef;
-    color: #000;
+    background: #eee;
     animation: blink 0.5s infinite;
     border-left:2px solid transparent;
     border-right:2px solid transparent;
