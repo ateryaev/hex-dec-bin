@@ -30,22 +30,25 @@ body {
   font-size: 100%;
 }
 #app .title, #app .subtitle {
-  display: flex;
-  justify-content: start;
+  xdisplay: flex;
+  xjustify-content: start;
   align-items: center;
-  text-transform: uppercase;
+  xtext-transform: uppercase;
   color: #fff;
   text-transform: uppercase;
   border: 1px solid transparent;
+  justify-content:space-between;
+  grid-template-columns:auto auto;
+  display: grid;
 }
 
 #app .subtitle{
-  background: #eee;
+  background: #ddd;
   border: 1px solid #000;
   color:#222;
   margin: -1px;
   z-index: 2;
-  justify-content: center;
+  
 }
 
 #app .readonly .subtitle, #app .disabled .subtitle{
@@ -56,8 +59,23 @@ body {
   color: rgba(0, 0, 0, 0.2);
 }
 
-.subtitle>span {
+div.subtitle>span {
   transform: rotate(-90deg);
   font-size: 100%; 
+}
+
+a {
+  color:#fff;
+  xtext-transform: none;
+  xtext-decoration: none;
+  font-size: 70%;
+}
+
+div.subtitle div, div.title div {
+  padding: 0 4px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 70%;
 }
 

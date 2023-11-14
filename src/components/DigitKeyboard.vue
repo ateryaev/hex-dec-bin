@@ -1,5 +1,6 @@
 <script setup>
-const props = defineProps({base:Number});
+import { onMounted, onUnmounted, reactive, ref, computed, nextTick } from 'vue'
+const props = defineProps({base:Number, clipboardText:String, displayText:String});
 const emit = defineEmits(['input']);
 
 const baseConig = {
@@ -8,6 +9,10 @@ const baseConig = {
     2: { digits: "01", group: 4, name: "BIN" }
 };
 
+const currentBaseText = computed(() => {
+  if (isDisabled()) return "HEX/DEC/BIN";
+  return baseConig[props.base].name;
+});
 
 const buttons =[
   "COPY", "PASTE", "CLEAR", "BACKSPACE",
@@ -53,8 +58,8 @@ function isDigitDisabled(action) {
 
 
 <div class="main" :class="{disabled:isDisabled()}">
-  <div class="subtitle" :class="{disabled:isDisabled()}">BUFFER CONTENT: 123 FFAB</div>  
-  <div class="subtitle minidisplay">MINI DISPLAY: 4 985 100 101</div>
+  <div class="subtitle" :class="{disabled:isDisabled()}"><div>Clipboard:</div><div>{{ clipboardText }}</div></div>  
+  <div class="subtitle minidisplay"><div>{{ currentBaseText }}:</div><div>{{ displayText }}</div></div>
   <button v-for="action in buttons" :class="{digit:isDigit(action), disabled:isDigitDisabled(action)}"
     @mousedown="(e)=>handleMousedown(e, action)">
       {{ action }}
