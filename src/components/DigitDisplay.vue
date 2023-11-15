@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref, computed, onMounted, onUnmounted } from 'vue'
+import { reactive, ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import Digit from './Digit.vue'
 
 const maxSize = 32;
@@ -10,18 +10,15 @@ const props = defineProps({
 const digit = ref([]);
 
 const cursorPosition = ref(0);
-const startIndex = ref(0);
 const displayDiv = ref(null);
 const readonly = ref(true);
-const digitCount = ref(10);
-
+const resetTimeout = ref(null);
 
 const baseConig = {
     16: { digits: "0123456789ABCDEF", group: 4, name: "HEX" },
     10: { digits: "0123456789", group: 3, name: "DEC" },
     2: { digits: "01", group: 4, name: "BIN" }
 }
-//const emit = defineEmits(['tap'])
 
 const emit = defineEmits(['update:modelValue'])
 
@@ -30,6 +27,16 @@ defineExpose({
     displayValue
   });
 
+watch(readonly, (oldReadonly, newReadonly) => {
+    if (newReadonly) {
+        window.clearTimeout(resetTimeout.value);
+    } else {
+        resetTimeout.value = window.setTimeout(() => {
+            displayDiv.value.children[0].scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+        }, 2000 );
+    }
+    console.log("readonly: "+ newReadonly + oldReadonly);
+})
 function input(key, params) {
     console.log(key)
     if (key.length == 1) {
@@ -99,10 +106,6 @@ function displayValue() {
     return props.modelValue.toString(props.base);
 }
 
-function handleNumberChange(newValue) {
-    emit('update:modelValue', props.modelValue);
-}
-
 const digits = computed(() => {
   let str = props.modelValue.toString(props.base);
   return str.split('').reverse();
@@ -118,46 +121,19 @@ function isMeanfullAt(index) {
 }
 
 function handleMouseDown(idx) {
+    if (readonly.value) return;
     setCursorPosition(idx);
 }
-function setStartIndex(index) {
-    if (index < 0) startIndex.value = 0;
-    else if (index > 31 -  digitCount.value + 1) startIndex.value = 31-  digitCount.value + 1;
-    else startIndex.value = index;
-}
+
 function setCursorPosition(idx) {
+    if (idx > 31 || idx < 0) return;
     cursorPosition.value = idx;
-    //console.log(displayDiv.value.children[idx]);
     displayDiv.value.children[idx].scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
-    /*
-    if (index > 31 || index < 0) return;
-    console.log("TEST", index, startIndex.value, startIndex.value + digitCount.value)
-    if (readonly.value == true) return;
-    cursorPosition.value = index;
-    
-    if (index < startIndex.value+1) {
-        setStartIndex(index - 1);
-    }
-    if (index > startIndex.value + digitCount.value - 2) {
-        setStartIndex(index - digitCount.value + 2);
-    }*/
 }
 function n2i(n) {
-    return n - 1;// + startIndex.value;
+    return n - 1;
 } 
 
-function handleResize() {
-//    digitCount.value = Math.floor(displayDiv.value.offsetWidth/40) + 1;
-}
-/*
-onMounted(() => {
-    handleResize();
-    window.addEventListener("resize", handleResize);
-})
-onUnmounted(() => {
-    window.removeEventListener("resize", handleResize);
-})
-*/
 
 function handleFocus(e) {readonly.value = false;}
 function handleBlur(e) {readonly.value = true;}
@@ -188,11 +164,19 @@ function handleBlur(e) {readonly.value = true;}
 <style scoped>
 
 div.main {
+    overflow: hidden;
     display: grid;
-    grid-template-columns: 20px auto;
+    grid-template-columns: 16px auto;
     outline: 0;
 }
 
+.subtitle{
+  z-index: 2;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+div.readonly .subtitle {
+    box-shadow: none;
+}
 div.display.readonly {
     background: transparent;
 }

@@ -24,15 +24,16 @@ const blank = computed(() => (props.value == ""));
 
 div.digit {
     display: grid;
-    grid-template-columns:40px;
-    grid-template-rows:50px 20px;
+    grid-template-columns:32px;
+    grid-template-rows:40px 16px;
     
 }
 div.digit>div.value {
-    font-size: 250%;
+    font-size: 200%;
     color:#000;
     border-left:2px solid transparent;
     border-right:2px solid transparent;
+    user-select:text;
 }
 div.digit.group {
     border-right:1px solid #000;

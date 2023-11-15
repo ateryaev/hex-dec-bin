@@ -2,39 +2,32 @@
 import { onMounted, onUnmounted, reactive, ref, computed, nextTick } from 'vue'
 import DigitDisplay from './components/DigitDisplay.vue'
 import DigitKeyboard from './components/DigitKeyboard.vue'
+import {clipboard} from './clipboard'
+
 
 const display = ref([]);
 const number = ref(0);
 const bases = [16, 10, 2];
 const selectedIndex = ref(-1);
 const clipboarText = ref("");
-let intervalId = 0;
+const zoom = ref(1);
 
-function handlePaste(e) {
-  console.log(e.clipboardData.getData("text"))
-}
 
-function handleCopy(e) {
-  navigator.clipboard.writeText("1234567890");
-}
-function handleBtn(e) {
-  console.log("BTN", display.value[0].keyboard)
-  e.preventDefault();
-  //e.target.blur();
-}
 async function handleInput(action) {
   console.log("KEYBOARD: ", action, selectedIndex) 
   if (selectedIndex.value<0) return;
   const selectedDisplay = display.value[selectedIndex.value];
 
   if (action.toLowerCase() == "copy") {
-    navigator.clipboard.writeText(selectedDisplay.displayValue());
+    clipboard.write(selectedDisplay.displayValue());
+    clipboarText.value = selectedDisplay.displayValue();
     console.log("COPY: ", selectedDisplay.displayValue())
   }
   if (action.toLowerCase() == "paste") {
     selectedDisplay.input("clear");
-    let clip = await navigator.clipboard.readText();
+    let clip = await clipboard.read();
     clip = clip.slice(-128);
+    clipboarText.value = clip;
     console.log("PASTE: ", clip)
     for (let i=0; i<clip.length; i++) {
       selectedDisplay.input(clip.charAt(i));
@@ -49,30 +42,42 @@ const currentDisplayText = computed(() => {
   return display.value[selectedIndex.value].displayValue();
 });
 
+async function handleDisplayFocus(index) {
+  selectedIndex.value=index;
+  if (index < 0) return;
+  clipboarText.value = await clipboard.preRead();
+}
+let zoomIndex = -1;
+const zooms = [1, 1.5, 2.0];
 
-async function updateClipboard() {
-  if (window.document.hasFocus()) {
-    const clip = await navigator.clipboard.readText();
-    clipboarText.value = clip.slice(-128);
-  }
+function handleZoom(e) {
+  const isTouch = (window.ontouchstart !== undefined);
+  if (e.type === "mousedown" && isTouch) return;
+  zoomIndex = (zoomIndex + 1) % zooms.length;
+  document.body.style.zoom = zooms[zoomIndex];
 }
 
-onMounted(() => {
-  intervalId = setInterval(updateClipboard, 1000);
-})
-onUnmounted(() => {
-  clearInterval(intervalId);
-})
+ onMounted(() => {
+  document.body.style.zoom = zooms[zoomIndex];;
+ });
+// onUnmounted(() => {
+//   clearInterval(intervalId);
+// })
 
 </script>
 
 <template>
-      <div class="title">hex-dec-bin converter</div>
+      <div class="title">
+        <div>hex-dec-bin converter</div>
+        <button @mousedown.prevent="handleZoom" @touchstart.prevent="handleZoom">ZOOM &plusmn;</button>
+      </div>
       <DigitDisplay v-for="(base, index) in bases" ref="display" 
         v-model="number" 
         :base="base"
-        @focus="selectedIndex=index"
-        @blur="selectedIndex=-1"/>
+        @copy.prevent="handleInput('copy')"
+        @paste.prevent="handleInput('paste')"
+        @focus="handleDisplayFocus(index)"
+        @blur="handleDisplayFocus(-1)"/>
       <DigitKeyboard 
         :clipboardText="clipboarText"
         :displayText="currentDisplayText"
@@ -80,8 +85,18 @@ onUnmounted(() => {
         @input="handleInput"
         />
         
-        <div class="title"><div>Developed by</div><div>Anton Teryaev</div></div>
-        <div class="title"><div>Source Code</div><a href="https://github.com/ateryaev/hex-dec-bin">https://github.com/ateryaev/hex-dec-bin</a></div>      
+        <div class="title">
+          <div>
+            Developed by
+          </div>
+          <div style="text-align: right;">
+            Anton Teryaev
+          </div>
+        </div>
+        <div class="title" style="margin-top: -8px;">
+            <a href="https://github.com/ateryaev/hex-dec-bin">https://github.com/ateryaev/hex-dec-bin</a>
+            <a onclick="document.getElementById('metaViewport').content='initial-scale=0.5,user-scalable=no';this.style.color='red'">2023</a>
+        </div>
 </template>
 
 <style scoped>

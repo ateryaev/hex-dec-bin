@@ -30,6 +30,8 @@ function isDigit(action) {
 }
 
 function handleMousedown(e, action) {
+  //const isTouch = (window.ontouchstart !== undefined);
+  //if (e.type === "mousedown" && isTouch) return;
   e.preventDefault();
   if(isDisabled()) return;
   emit('input', action);
@@ -50,7 +52,6 @@ function isDigitDisabled(action) {
   return true;
 }
 
-//e.clipboardData.getData("text")
 </script>
 
 <template>
@@ -58,7 +59,10 @@ function isDigitDisabled(action) {
 
 
 <div class="main" :class="{disabled:isDisabled()}">
-  <div class="subtitle" :class="{disabled:isDisabled()}"><div>Clipboard:</div><div>{{ clipboardText }}</div></div>  
+  <div class="subtitle" :class="{disabled:isDisabled()}">
+    <div v-if="clipboardText">Clipboard:</div>
+    <div v-if="clipboardText">{{ clipboardText }}</div>
+  </div>  
   <div class="subtitle minidisplay"><div>{{ currentBaseText }}:</div><div>{{ displayText }}</div></div>
   <button v-for="action in buttons" :class="{digit:isDigit(action), disabled:isDigitDisabled(action)}"
     @mousedown="(e)=>handleMousedown(e, action)">
@@ -73,14 +77,21 @@ function isDigitDisabled(action) {
 div.main {
     display: grid;
     grid-template-columns: 25% 25% 25% auto;
-    grid-template-rows: 20px 50px 20px repeat(4, 50px);
+    grid-template-rows: 16px 40px 16px repeat(4, 40px);
     gap:0px;
     border-right: 1px solid #000;
     border-bottom: 1px solid #000;
+    overflow: hidden;
 }
 
 div.main>div.subtitle {
     grid-column-end: span 4;
+}
+div.subtitle:not(.minidisplay) {
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+div.disabled div.subtitle:not(.minidisplay) {
+  box-shadow: none;
 }
 div.main>div.minidisplay {
   grid-row-start: 3;
@@ -107,14 +118,19 @@ button {
   transition: background 0.2s, color 0.2s;
 }
 
-button.digit {
-  font-size: 125%;
+button:hover {
   background: #fff;
-  
 }
 button:active {
   background: rgba(0,0,0,0.2);
   color: #fff;
   transition: all 0s;
 }
+
+button.digit {
+  font-size: 125%;
+  
+  
+}
+
 </style>

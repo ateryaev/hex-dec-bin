@@ -1,14 +1,14 @@
 body {
-  background: #234;
+  background: #678;
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  user-select: none;
+  user-select:none;
   font-family: 'M PLUS Rounded 1c', sans-serif;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: bolder;
 }
 
@@ -16,24 +16,21 @@ body {
   background-color: #678;
   padding: 8px;
   height: fit-content;
-  min-height: 100vh;
-  min-width: 350px;
+  xmin-height: 100vh;
+  min-width: 100px;
   max-width: 1024px;
   margin: 0px auto;
-  box-shadow: 0 0 0px 1px #000;
 }
 #app>*{
   margin: 8px 0;
   border: 1px solid #000;
 }
-#app>*{
-  font-size: 100%;
+
+#app .title {
+  font-size: 120%;
 }
 #app .title, #app .subtitle {
-  xdisplay: flex;
-  xjustify-content: start;
   align-items: center;
-  xtext-transform: uppercase;
   color: #fff;
   text-transform: uppercase;
   border: 1px solid transparent;
@@ -48,7 +45,6 @@ body {
   color:#222;
   margin: -1px;
   z-index: 2;
-  
 }
 
 #app .readonly .subtitle, #app .disabled .subtitle{
@@ -61,21 +57,44 @@ body {
 
 div.subtitle>span {
   transform: rotate(-90deg);
-  font-size: 100%; 
+  width: 16px;
+  height: 16px;
+  overflow:visible;
+  margin-top: 8px;
 }
 
 a {
   color:#fff;
-  xtext-transform: none;
-  xtext-decoration: none;
-  font-size: 70%;
+}
+div.subtitle *, div.title * {
+  
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+
+}
+div.subtitle * {
+  padding: 0 4px;
 }
 
-div.subtitle div, div.title div {
+button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #000;
+  margin-left: -1px;
+  border: 1px solid #000;
+  xbackground: #eee;
+  transition: background 0.2s, color 0.2s;
   padding: 0 4px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  font-size: 70%;
+  padding: 4px;
 }
 
+button:active {
+  background: rgba(0,0,0,0.2);
+  color: #fff;
+  transition: all 0s;
+}
