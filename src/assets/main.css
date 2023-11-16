@@ -84,7 +84,6 @@ button {
   color: #000;
   margin-left: -1px;
   border: 1px solid #000;
-  xbackground: #eee;
   transition: background 0.2s, color 0.2s;
   padding: 0 4px;
   text-overflow: ellipsis;

@@ -69,7 +69,7 @@ function handleZoom(e) {
 <template>
       <div class="title">
         <div>hex-dec-bin converter</div>
-        <button @mousedown.prevent="handleZoom" @touchstart.prevent="handleZoom">ZOOM &plusmn;</button>
+        <!--button @mousedown.prevent="handleZoom" @touchstart.prevent="handleZoom">ZOOM &plusmn;</button-->
       </div>
       <DigitDisplay v-for="(base, index) in bases" ref="display" 
         v-model="number" 
